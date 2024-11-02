@@ -42,7 +42,28 @@ def send_email(subject, text_body, recipient_email):
 
 
 if __name__ == "__main__":
-    recipient_email = ["18924622559@163.com"]
+
+    # 指定.env.dev文件的路径
+    from pathlib import Path
+    from dotenv import load_dotenv
+
+    project_path = Path(__file__).resolve().parent  # 此脚本的运行"绝对"路径
+    # project_path = os.getcwd()  # 此脚本的运行的"启动"路径
+    # print(project_path)
+
+    dotenv_path = os.path.join(project_path, '../../.env.dev')
+
+    # 载入环境变量
+    load_dotenv(dotenv_path)
+    EMAIL_SENDER_ADDRESS = os.getenv('EMAIL_PERSON_SENDER_ADDRESS')
+    EMAIL_AUTHORIZATION_CODE = os.getenv("EMAIL_PERSON_AUTHORIZATION_CODE")
+
+    print(EMAIL_SENDER_ADDRESS)
+    print(EMAIL_AUTHORIZATION_CODE)
+    APP_ENV = "prod"
+
+
+    recipient_email = "18924622559@163.com"
 
     html_content = """
 <html lang="en">
