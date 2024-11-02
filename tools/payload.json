@@ -1,0 +1,5 @@
+{
+    "event": "push",
+    "repository": "my-repo",
+    "branch": "main"
+}
