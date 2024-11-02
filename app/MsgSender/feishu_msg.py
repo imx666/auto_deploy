@@ -12,7 +12,7 @@ FEISHU_AUTH_CODE = os.getenv("FEISHU_AUTH_CODE_JERRY")
 def send_feishu_info(title, body, custom=None, supreme_auth=False):
     if supreme_auth is False:
         if APP_ENV != "prod":
-            return "非生产环境,wx_msg没有发送权限"
+            return "非生产环境,feishu_msg没有发送权限"
 
     api_url = f"https://open.feishu.cn/open-apis/bot/v2/hook/{FEISHU_AUTH_CODE}"
 
