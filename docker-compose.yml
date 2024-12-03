@@ -13,7 +13,7 @@ services:
 
   run_web:
     build: .
-#    image: sztu_is
+#    image: sztu_is,上面的这个点，代表当前目录的dockerfile
     ports:
       - "30001:30001"
     volumes:

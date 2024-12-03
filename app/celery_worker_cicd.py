@@ -13,16 +13,15 @@ from MsgSender.feishu_msg import send_feishu_info
 # import logging
 import logging.config
 from utils.logging_config import Logging_dict
+
 logging.config.dictConfig(Logging_dict)
 LOGGING = logging.getLogger("celery_worker_cicd")
-
 
 REDIS_HOST = os.getenv("REDIS_HOST")
 REDIS_PASSWORD = os.getenv("REDIS_PASSWORD")
 REDIS_PORT = os.getenv("REDIS_PORT")
 REDIS_CELERY_DB_CICD = os.getenv("REDIS_CELERY_DB_CICD")
 broker_url = f'redis://:{REDIS_PASSWORD}@{REDIS_HOST}:{REDIS_PORT}/{REDIS_CELERY_DB_CICD}'
-
 
 app = Celery('webhook', broker=broker_url, backend=broker_url)
 app.conf.timezone = 'Asia/Shanghai'
@@ -34,19 +33,22 @@ repo_path = f'{project_path}/sztu_IS'
 
 # 定义 Git 命令
 commands = [
-    ["docker-compose", "-f", SCRIPT_PATH, "stop", "sztu_is_prod_ali"],
+    ["docker-compose", "-f", SCRIPT_PATH, "stop", "ali_prod"],
 
-    ["git", "fetch", "origin"],
+    # ["git", "fetch", "origin"],
     # ["git", "checkout", "-b", "total_celery", "origin/total_celery"],
-    ["git", "checkout", "total_celery"],
-    ["git", "pull", "origin", "total_celery"],
+    # ["git", "checkout", "total_celery"],
+    # ["git", "pull", "origin", "total_celery"],
+
+    ["git", "pull"],
     ["git", "branch"],
 
-    ["docker", "build", "-t", "sztu_is", "."],
-    ["docker-compose", "-f", SCRIPT_PATH, "up", "-d", "sztu_is_prod_ali"],
+    # ["docker", "build", "-t", "sztu_is", "."],
+    ["docker-compose", "-f", SCRIPT_PATH, "up", "--build", "-d", "ali_prod"],
 ]
 
-# 每次启动时重新构建
+
+# !!!!每次启动时重新构建
 # docker-compose up --build run_web
 
 @app.task(name='webhook.auto_deploy')
@@ -76,15 +78,10 @@ def auto_deploy(a):
             total_res += f"Return Code:{result.returncode}\n"
         LOGGING.info(total_res)
 
-        send_feishu_info("部署结果",total_res)
-
-
+        send_feishu_info("部署结果", total_res)
 
         return total_res
 
     except Exception as e:
         LOGGING.error(f"An error occurred: {e}")
         return e
-
-
-
