@@ -15,7 +15,6 @@ print(project_path)
 load_dotenv(dotenv_path)  # 载入环境变量
 
 
-print(os.getenv('WEBHOOK_SECRET'))
 
 
 

@@ -41,12 +41,12 @@ commands = [
 
     # ["docker", "build", "-t", "sztu_is", "."],
 
-    # ["docker-compose", "-f", SCRIPT_PATH, "stop", "ali_prod"],
+    ["docker-compose", "-f", SCRIPT_PATH, "stop", "ali_prod"],
 
-    # ["git", "pull"],
+    ["git", "pull"],
     ["git", "branch"],
 
-    # ["docker-compose", "-f", SCRIPT_PATH, "up", "--build", "-d", "ali_prod"],
+    ["docker-compose", "-f", SCRIPT_PATH, "up", "--build", "-d", "ali_prod"],
 ]
 
 
@@ -79,7 +79,7 @@ def auto_deploy(a):
             total_res += f"Return Code:{result.returncode} ]>\n\n"
         LOGGING.info(total_res)
 
-        # send_feishu_info("部署结果", total_res)
+        send_feishu_info("部署结果", total_res)
 
         return total_res
 
