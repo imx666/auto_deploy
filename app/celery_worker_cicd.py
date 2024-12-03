@@ -33,18 +33,20 @@ repo_path = f'{project_path}/sztu_IS'
 
 # 定义 Git 命令
 commands = [
-    ["docker-compose", "-f", SCRIPT_PATH, "stop", "ali_prod"],
 
     # ["git", "fetch", "origin"],
     # ["git", "checkout", "-b", "total_celery", "origin/total_celery"],
     # ["git", "checkout", "total_celery"],
     # ["git", "pull", "origin", "total_celery"],
 
-    ["git", "pull"],
+    # ["docker", "build", "-t", "sztu_is", "."],
+
+    # ["docker-compose", "-f", SCRIPT_PATH, "stop", "ali_prod"],
+
+    # ["git", "pull"],
     ["git", "branch"],
 
-    # ["docker", "build", "-t", "sztu_is", "."],
-    ["docker-compose", "-f", SCRIPT_PATH, "up", "--build", "-d", "ali_prod"],
+    # ["docker-compose", "-f", SCRIPT_PATH, "up", "--build", "-d", "ali_prod"],
 ]
 
 
@@ -55,6 +57,8 @@ commands = [
 def auto_deploy(a):
     LOGGING.info(str(a))
     LOGGING.info("Hello World!")
+
+
     # 使用subprocess.run执行Shell脚本
     try:
         # 执行Shell命令
@@ -69,16 +73,13 @@ def auto_deploy(a):
                 result = subprocess.run(command, capture_output=True, text=True)
 
             # 输出脚本的标准输出
-            # LOGGING.info(f"Standard Output:{result.stdout}")
-            total_res += f"Standard Output:{result.stdout}\n"
+            total_res += f"<[ Standard Output:{result.stdout}\n"
             if result.stderr:
-                # LOGGING.info(f"Standard Error:{result.stderr}")
                 total_res += f"Standard Error:{result.stderr}\n"
-            # LOGGING.info(f"Return Code:{result.returncode}")
-            total_res += f"Return Code:{result.returncode}\n"
+            total_res += f"Return Code:{result.returncode} ]>\n\n"
         LOGGING.info(total_res)
 
-        send_feishu_info("部署结果", total_res)
+        # send_feishu_info("部署结果", total_res)
 
         return total_res
 
