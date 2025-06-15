@@ -85,4 +85,4 @@ def auto_deploy(a):
 
     except Exception as e:
         LOGGING.error(f"An error occurred: {e}")
-        return e
+        return f"An error occurred: {e}"
